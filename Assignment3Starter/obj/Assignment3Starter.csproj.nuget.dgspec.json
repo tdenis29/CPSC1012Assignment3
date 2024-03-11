@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\NathanH\\source\\repos\\CPSC1012\\Winter-2024\\Assignment3Starter\\Assignment3Starter\\Assignment3Starter.csproj": {}
+    "C:\\Code\\CPSC1012\\myCFolder\\CPSC1012Assignment3\\Assignment3Starter\\Assignment3Starter.csproj": {}
   },
   "projects": {
-    "C:\\Users\\NathanH\\source\\repos\\CPSC1012\\Winter-2024\\Assignment3Starter\\Assignment3Starter\\Assignment3Starter.csproj": {
+    "C:\\Code\\CPSC1012\\myCFolder\\CPSC1012Assignment3\\Assignment3Starter\\Assignment3Starter.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\NathanH\\source\\repos\\CPSC1012\\Winter-2024\\Assignment3Starter\\Assignment3Starter\\Assignment3Starter.csproj",
+        "projectUniqueName": "C:\\Code\\CPSC1012\\myCFolder\\CPSC1012Assignment3\\Assignment3Starter\\Assignment3Starter.csproj",
         "projectName": "Assignment3Starter",
-        "projectPath": "C:\\Users\\NathanH\\source\\repos\\CPSC1012\\Winter-2024\\Assignment3Starter\\Assignment3Starter\\Assignment3Starter.csproj",
-        "packagesPath": "C:\\Users\\NathanH\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\NathanH\\source\\repos\\CPSC1012\\Winter-2024\\Assignment3Starter\\Assignment3Starter\\obj\\",
+        "projectPath": "C:\\Code\\CPSC1012\\myCFolder\\CPSC1012Assignment3\\Assignment3Starter\\Assignment3Starter.csproj",
+        "packagesPath": "C:\\Users\\tdeni\\.nuget\\packages\\",
+        "outputPath": "C:\\Code\\CPSC1012\\myCFolder\\CPSC1012Assignment3\\Assignment3Starter\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\NathanH\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\tdeni\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

@@ -1,0 +1,15 @@
+C:\Code\CPSC1012\myCFolder\CPSC1012Assignment3\Assignment3Starter\bin\Debug\net8.0\Assignment3Starter.exe
+C:\Code\CPSC1012\myCFolder\CPSC1012Assignment3\Assignment3Starter\bin\Debug\net8.0\Assignment3Starter.deps.json
+C:\Code\CPSC1012\myCFolder\CPSC1012Assignment3\Assignment3Starter\bin\Debug\net8.0\Assignment3Starter.runtimeconfig.json
+C:\Code\CPSC1012\myCFolder\CPSC1012Assignment3\Assignment3Starter\bin\Debug\net8.0\Assignment3Starter.dll
+C:\Code\CPSC1012\myCFolder\CPSC1012Assignment3\Assignment3Starter\bin\Debug\net8.0\Assignment3Starter.pdb
+C:\Code\CPSC1012\myCFolder\CPSC1012Assignment3\Assignment3Starter\obj\Debug\net8.0\Assignment3Starter.GeneratedMSBuildEditorConfig.editorconfig
+C:\Code\CPSC1012\myCFolder\CPSC1012Assignment3\Assignment3Starter\obj\Debug\net8.0\Assignment3Starter.AssemblyInfoInputs.cache
+C:\Code\CPSC1012\myCFolder\CPSC1012Assignment3\Assignment3Starter\obj\Debug\net8.0\Assignment3Starter.AssemblyInfo.cs
+C:\Code\CPSC1012\myCFolder\CPSC1012Assignment3\Assignment3Starter\obj\Debug\net8.0\Assignment3Starter.csproj.CoreCompileInputs.cache
+C:\Code\CPSC1012\myCFolder\CPSC1012Assignment3\Assignment3Starter\obj\Debug\net8.0\Assignment3Starter.sourcelink.json
+C:\Code\CPSC1012\myCFolder\CPSC1012Assignment3\Assignment3Starter\obj\Debug\net8.0\Assignment3Starter.dll
+C:\Code\CPSC1012\myCFolder\CPSC1012Assignment3\Assignment3Starter\obj\Debug\net8.0\refint\Assignment3Starter.dll
+C:\Code\CPSC1012\myCFolder\CPSC1012Assignment3\Assignment3Starter\obj\Debug\net8.0\Assignment3Starter.pdb
+C:\Code\CPSC1012\myCFolder\CPSC1012Assignment3\Assignment3Starter\obj\Debug\net8.0\Assignment3Starter.genruntimeconfig.cache
+C:\Code\CPSC1012\myCFolder\CPSC1012Assignment3\Assignment3Starter\obj\Debug\net8.0\ref\Assignment3Starter.dll

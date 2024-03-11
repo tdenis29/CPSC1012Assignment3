@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Assignment3Starter
-build_property.ProjectDir = C:\Users\NathanH\source\repos\CPSC1012\Winter-2024\Assignment3Starter\Assignment3Starter\
+build_property.ProjectDir = C:\Code\CPSC1012\myCFolder\CPSC1012Assignment3\Assignment3Starter\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
