@@ -1,8 +1,10 @@
 ﻿///// <summary>
 ///// </summary>
 
+using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection.Metadata;
+using System.Windows.Markup;
 
 /// Assignment 3
 /// 
@@ -150,7 +152,7 @@ internal class Program
                         while (displayAnalysisMenu)
                         {
                             // TODO: call the DisplayAnalysisMenu here
-
+							DisplayAnalysisMenu();
 
                             analysisMenuChoice = Prompt("Enter ANALYSIS sub-menu option: ").ToUpper();
                             Console.WriteLine();
@@ -217,8 +219,6 @@ internal class Program
         DisplayProgramOutro();
      
 
-        // ++++++++++++++++++++++++++++++++++++ Difficulty 1 ++++++++++++++++++++++++++++++++++++
-
         // TODO: create the Prompt method
 		static string Prompt(String prompt)
 		{
@@ -260,15 +260,6 @@ internal class Program
 
         // TODO: create the DisplayMainMenu method
         // the menu must consist of the following options:
-        // 
-        // [N]ew Daily Sales Entry
-        // [S]ave Entries to File
-        // [E]dit Sales Entries
-        // [L]oad Sales File
-        // [V]iew Entered/Loaded Sales
-        // [M]onthly Statistics
-        // [D]isplay Main Menu
-        // [Q]uit Program
 		static void DisplayMainMenu()
 		{
 			Console.WriteLine("[N]ew Daily Sales Entry");
@@ -290,15 +281,78 @@ internal class Program
         // [L]owest Sales
         // [G]raph Sales
         // [R]eturn to MAIN MENU
-
-
+		static void DisplayAnalysisMenu(){
+			Console.WriteLine("[A]verage Sales");
+			Console.WriteLine("[H]ighest Sales");
+			Console.WriteLine("[L]owest Sales");
+			Console.WriteLine("G]raph Sales");
+			Console.WriteLine("[R]eturn to MAIN MENU");
+		}
         // TODO: create the Largest method
-
+		static double Largest(double[] sales, int countEntries){
+			double calcLarge = 0.0;
+			int indexOfLargest = 0;
+			
+            for(int i = 0; i < countEntries; i++){
+            	//assign first value as largest to compare
+				if(i == 0){
+					calcLarge = sales[i];
+				} 
+				// if another value is 
+				if(sales[i] > calcLarge){
+					calcLarge = sales[i];
+				}
+            }
+			for(int i = 0; i < countEntries; i++){
+				if(sales[i] == calcLarge){
+					indexOfLargest = i;
+				}
+			}
+			return indexOfLargest;
+		}
 
         // TODO: create the Smallest method
+        static int LowestSales(double[] sales, int countOfEntries){
+
+            int indexOfMin = 0;
+            double min = 0;
+
+            for(int i = 0; i < countOfEntries; i++){
+                //beginning of array assign first value to min to compare other values
+                if(i == 0){
+                    min = sales[i];
+                }
+                //if while looping found a value lower than currentMin assign it to min
+                if(sales[i] < min){
+                    min = sales[i];
+                }
+            }
+
+            for(int i = 0; i < countOfEntries; i++){
+                if(sales[i] == min){
+                    indexOfMin = i;
+                    //found indexOfMin break out of loop
+                    break;
+                }
+            }
+            return indexOfMin;
+        }
 
 
         // TODO: create the Mean method
+        double MeanAverageSales(double[] sales, int countOfEntries){
+            double totalSum = 0.0;
+            double mean = 0.0;
+
+            for(int i = 0; i < countOfEntries; i++){
+                totalSum += sales[i];
+            }
+            mean = totalSum / countOfEntries;
+
+            return mean;
+
+
+        }
 
 
         // ++++++++++++++++++++++++++++++++++++ Difficulty 2 ++++++++++++++++++++++++++++++++++++
