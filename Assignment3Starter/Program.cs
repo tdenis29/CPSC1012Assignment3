@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection.Metadata;
 using System.Windows.Markup;
+using System.Text.RegularExpressions;
 
 /// Assignment 3
 /// 
@@ -25,14 +26,16 @@ internal class Program
         // TODO: declare a constant to represent the max size of the sales
         // and dates arrays. The arrays must be large enough to store
         // sales for an entire month.
-
+        const int daysOfMonth = 31;
 
         // TODO: create a double array named 'sales', use the max size constant you declared
         // above to specify the physical size of the array.
+        double[] sales = new double[daysOfMonth];
 
 
         // TODO: create a string array named 'dates', use the max size constant you declared
         // above to specify the physical size of the array.
+        string[] dates = new string[daysOfMonth];
 
 
         string month;
@@ -64,7 +67,7 @@ internal class Program
                     if (proceed)
                     {
                         // TODO: uncomment the following and call the EnterSales method below
-                        //count = CALL THE METHOD HERE
+                        count = EnterSales(sales, dates);
                         Console.WriteLine();
                         Console.WriteLine($"Entries completed. {count} records in temporary memory.");
                         Console.WriteLine();
@@ -350,8 +353,6 @@ internal class Program
             mean = totalSum / countOfEntries;
 
             return mean;
-
-
         }
 
 
@@ -359,9 +360,90 @@ internal class Program
 
 
         // TODO: create the DisplayEntries method
+            void DisplayEntries(double[] sales, string[] dates, int countOfEntries){
+                for(int i = 0; i < countOfEntries; i++){
+                    Console.WriteLine(String.Format("| {0,1} | {1,11} |", sales[i], dates[i]));
+                    Console.WriteLine("------------");
+                }
+        }
 
 
         // TODO: create the EnterSales method
+        int EnterSales(double[] sales, string[] dates){
+                //insure user input has no numerical characters or special
+                string dailySalesTest = @"^[0-9]+";
+                string numericalTest = @"^[^\d]+$";
+                string yearTest = @"^(19|20)\d{2}$";
+
+                string dailySales = "";
+                string[] dailySalesArray = new string[31];
+
+                string monthlySaleString = "";
+                string month = "";
+                string userYear = "0";
+
+                bool monthMatch = false;
+                int count = 0;
+
+                // get month first
+                Console.Write("Enter Month as MMM: ");
+                do{
+                    try{
+                       month = Console.ReadLine();
+                       //numerical test if fails throw format exception
+                       if(Regex.IsMatch(month, numericalTest)){
+                            monthMatch = true;
+                            //spacing
+                            Console.WriteLine();
+                       } else {
+                            throw new FormatException("Error: Please only enter alphabetic characters for the month.");
+                            //spacing
+                           
+                       }
+                    //    if(Regex.IsMatch(month, monthTest)){
+                    //         Console.WriteLine("Month Confirmed");
+                    //    }
+                    }
+                    catch (FormatException ex){
+                        Console.WriteLine(ex.Message);
+                    }
+                } while(!monthMatch);
+            
+                Console.Write("Please enter year. (eg. YYYY): ");
+
+                do{
+                    try{
+                    userYear = Console.ReadLine();
+                        if(!Regex.IsMatch(userYear, yearTest)){
+                            throw new FormatException("Please enter a year between 1900 and 2100");
+                        } else {
+                            Console.WriteLine($"{userYear} is confirmed.");
+                            break;
+                        }
+                    } catch(FormatException ex){
+                        Console.WriteLine(ex.Message);
+                    }
+                } while(userYear != "0");
+
+                //montlySaleString = $"{month}-{userYear}";
+                for(int i = 0; i < 30; i++){
+                    Console.WriteLine($"Please enter daily sales for day {i + 1}.");
+                    try{
+                        dailySales = Console.ReadLine();
+                        if(Regex.IsMatch(dailySales, dailySalesTest)){
+                            dailySalesArray[i] = dailySales;
+                            count++;
+                        }
+                        if(!Regex.IsMatch(dailySales, dailySalesTest)){
+                            throw new FormatException("Please only enter digits for daily sales.");
+                        }
+                    } catch(FormatException ex){
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+
+            return count;    
+        }
 
 
         // TODO: create the LoadSalesFile method
