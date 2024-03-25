@@ -90,6 +90,7 @@ internal class Program
                         {
                             filename = PromptForFilename();
                             // TODO: call the SaveSalesFile method here
+                            SaveSalesFile(sales, dates, filename);
 
                         }
                         else
@@ -400,9 +401,6 @@ internal class Program
                             //spacing
                            
                        }
-                    //    if(Regex.IsMatch(month, monthTest)){
-                    //         Console.WriteLine("Month Confirmed");
-                    //    }
                     }
                     catch (FormatException ex){
                         Console.WriteLine(ex.Message);
@@ -425,11 +423,15 @@ internal class Program
                     }
                 } while(userYear != "0");
 
-                //montlySaleString = $"{month}-{userYear}";
+                
+                //add values into array here 
                 for(int i = 0; i < 30; i++){
                     Console.WriteLine($"Please enter daily sales for day {i + 1}.");
                     try{
                         dailySales = Console.ReadLine();
+                        if(double.Parse(dailySales) == -1){
+                            break;
+                        }
                         if(Regex.IsMatch(dailySales, dailySalesTest)){
                             dailySalesArray[i] = dailySales;
                             count++;
@@ -440,17 +442,59 @@ internal class Program
                     } catch(FormatException ex){
                         Console.WriteLine(ex.Message);
                     }
+                 monthlySaleString = $"{month}-0{i + 1}-{userYear}";
+                 dates[i] = monthlySaleString;
+                 sales[i] = double.Parse(dailySales);
                 }
-
             return count;    
         }
 
-
+        // int LoadSalesFile(string filename, double[] sales, string[] dates) --> loads the records from a file (filename) into the associative arrays used by the program; returns the record count (i.e. how many days of data were loaded) [difficulty 2]
         // TODO: create the LoadSalesFile method
+        static int LoadSalesFile(string fileName, double[] sales, string[] dates){
+            int count = 0;
+            string currLine = "";
+            try{
+                if(File.Exists(fileName)){
+                    using (StreamReader sr = new StreamReader(fileName)){
+                    string[] lines = File.ReadAllLines(fileName);
+                    for(int i = 0; i < sales.Length; i++){
+                       string[] values = lines[i].Split(',');
+                       dates[i] = values[0];
+                       sales[i] = double.Parse(values[1]);
+                    }
+                  }
+                } else {
+                    throw new IOException("File not found in this directory");
+                }
+            } catch(IOException ex){
+                Console.WriteLine(ex.Message);
+            }
+            return count;
+        }
 
 
         // TODO: create the SaveSalesFile method
-
+        static void SaveSalesFile(double[] sales, string[] dates, string fileName){
+        try{
+            if(File.Exists(fileName)){
+                using (StreamWriter sw = new StreamWriter(fileName)){
+                for(int i = 0; i < sales.Length; i++){
+                    sw.WriteLine($"{dates[i]}" + "," + $"{sales[i]}");
+                }
+            }
+            } else {
+                File.Create(fileName).Close();
+                using (StreamWriter sw = new StreamWriter(fileName)){
+                for(int i = 0; i < sales.Length; i++){
+                    sw.WriteLine($"{dates[i]}" + "," + $"{sales[i]}");
+                }
+            }
+        }
+        } catch(IOException ex){
+            Console.Write(ex.Message);
+        }
+    }  
 
         // ++++++++++++++++++++++++++++++++++++ Difficulty 3 ++++++++++++++++++++++++++++++++++++
 
@@ -460,6 +504,7 @@ internal class Program
         // ++++++++++++++++++++++++++++++++++++ Difficulty 4 ++++++++++++++++++++++++++++++++++++
 
         // TODO: create the DisplaySalesChart method
+
 
 
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

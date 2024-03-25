@@ -1,5 +1,24 @@
 <Query Kind="Statements" />
 
+int[] days = { 1, 2, 3, 4, 5 };
+int[] sales = {100, 500, 300, 600, 700};
+DrawBarChart(sales, days);
+
+static string AddSpacing(string inputString, int spacingCount)
+    {
+        StringBuilder modifiedString = new StringBuilder(inputString);
+
+        // Loop through the original string from the end to the beginning
+        for (int i = inputString.Length - 1; i >= 0; i--)
+        {
+            // Insert spaces at each index minus 1
+            modifiedString.Insert(i, new string(' ', spacingCount));
+        }
+
+        return modifiedString.ToString();
+    }
+
+
 void DrawBarChart(int[] sales,int[] dates)
 {
 
@@ -7,32 +26,35 @@ void DrawBarChart(int[] sales,int[] dates)
 	int salesMax = sales.Max();
 	int runningSalesMax = salesMax;
 	string whiteSpaceColumn = "       ";
-	//    foreach (var date in dates)
-//    {
-//      Console.WriteLine(new String('█', value * 10 / max) + $" {value}");
-//    }
-	//loop to make strings? because this loop is running on max sales so wee ned to loop for 750 / 50 = 14
-	//to make rows 
-	//int count or i can just be the count of columns so that at least is easy
+
+	string currString = "";
+	string withSpacing = "";
+   //string whitespaceToAdd = new string(' ', 8); // 8 whitespace characters
+   //         string modifiedString = originalString.Insert(index, whitespaceToAdd);
+   //         Console.WriteLine(modifiedString); // Output: ex        ample
+	
 	
 	Console.WriteLine("--Daily Sales--");
 	for(int i = salesMax; i >= 0; i--){
 		if(i == salesMax){
-		//if we make the string first then write to the console should work just fine.
-		//in the first column we don need the whiteSPaceColumn but if for example its day 2
-		// then we can make a string like $"{whiteSpaceColumn}{$456}}"
-		//then 3 can be {whitespaceColumn}{whiteSpaceColumn}{$100}
-			Console.WriteLine($" {runningSalesMax} | ");
+			Console.Write($" {runningSalesMax} | ");
+			for(int j = 0; j < sales.Length; j++){
+				if(sales[j] == runningSalesMax){
+				Console.WriteLine($"${sales[j]}");
+			 }
+		  }
 		}
 		else if(runningSalesMax == 50){
 		    runningSalesMax = runningSalesMax - 50;
-			Console.WriteLine($" {runningSalesMax} \t|");
+			Console.WriteLine($" {runningSalesMax} |");
 		}
 		else if(runningSalesMax == 0){
-			Console.WriteLine($" {runningSalesMax} \t|");
+			Console.WriteLine($" {runningSalesMax} |");
 		} else {
 			runningSalesMax = runningSalesMax - 50;
-			Console.WriteLine($" {runningSalesMax} | ");
+			currString = $" {runningSalesMax} |";
+			SpacingString += AddSpacing(currString, i);
+			 }
 		}
 		if(runningSalesMax <= 0){
 		Console.WriteLine("  --------------------------------------------------------------------------------------");
@@ -47,11 +69,8 @@ void DrawBarChart(int[] sales,int[] dates)
 		}
 		
 		
-		
-	}
-}
+		}
+	
+
 
 // Example usage:
-int[] days = { 1, 2, 3, 4, 5 };
-int[] sales = {100, 500, 300, 600, 700};
-DrawBarChart(sales, days);
