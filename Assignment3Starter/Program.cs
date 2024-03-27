@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection.Metadata;
 using System.Windows.Markup;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 /// Assignment 3
 /// 
@@ -38,6 +39,7 @@ internal class Program
         string[] dates = new string[daysOfMonth];
 
 
+
         string month;
         string year;
         string filename;
@@ -56,6 +58,7 @@ internal class Program
         {
             mainMenuChoice = Prompt("Enter MAIN MENU option ('D' to display menu): ").ToUpper();
             Console.WriteLine();
+    
 
             //MAIN MENU Switch statement
             switch (mainMenuChoice)
@@ -90,7 +93,7 @@ internal class Program
                         {
                             filename = PromptForFilename();
                             // TODO: call the SaveSalesFile method here
-                            SaveSalesFile(sales, dates, filename);
+                            SaveSalesFile(sales, dates, filename, count);
 
                         }
                         else
@@ -125,7 +128,7 @@ internal class Program
                     {
                         filename = Prompt("Enter name of file to load: ");
                         // TODO: uncomment the following and call the LoadSalesFile method below
-                        //count = CALL THE METHOD HERE
+                        count = LoadSalesFile(filename, sales, dates);
                         Console.WriteLine($"{count} records were loaded.");
                         Console.WriteLine();
                     }
@@ -141,7 +144,7 @@ internal class Program
                     }
                     else
                     {
-                        // TODO: call the DisplayEntries method here
+                        DisplayEntries(sales, dates, count);
 
                     }
                     break;
@@ -160,39 +163,38 @@ internal class Program
 
                             analysisMenuChoice = Prompt("Enter ANALYSIS sub-menu option: ").ToUpper();
                             Console.WriteLine();
-
+                            Console.WriteLine($"{analysisMenuChoice}");
                             switch (analysisMenuChoice)
                             {
                                 case "A": //[A]verage Sales
                                           // TODO: uncomment the following and call the Mean method below
-                                          //mean = CALL THE METHOD HERE
-                                          //month = dates[0].Substring(0, 3);
-                                          //year = dates[0].Substring(7, 4);
-                                          //Console.WriteLine($"The mean sales for {month} {year} is: {mean:C}");
-                                          //Console.WriteLine();
+                                          mean = MeanAverageSales(sales, count);
+                                          month = dates[0].Substring(0, 3);
+                                          year = dates[0].Substring(7, 4);
+                                          Console.WriteLine($"The mean sales for {month} {year} is: {mean:C}");
+                                          Console.WriteLine();
                                     break;
                                 case "H": //[H]ighest Sales
                                           // TODO: uncomment the following and call the Largest method below
-                                          //largest = CALL THE METHOD HERE
-                                          //month = dates[0].Substring(0, 3);
-                                          //year = dates[0].Substring(7, 4);
-                                          //Console.WriteLine($"The largest sales for {month} {year} is: {largest:C}");
-                                          //Console.WriteLine();
+                                          largest = Largest(sales, count);
+                                          month = dates[0].Substring(0, 3);
+                                          year = dates[0].Substring(7, 4);
+                                          Console.WriteLine($"The largest sales for {month} {year} is: {largest:C}");
+                                          Console.WriteLine();
                                     break;
                                 case "L": //[L]owest Sales
                                           // TODO: uncomment the following and call the Smallest method below
-                                          // smallest = CALL THE METHOD HERE
-                                          //month = dates[0].Substring(0, 3);
-                                          //year = dates[0].Substring(7, 4);
-                                          //Console.WriteLine($"The smallest sales for {month} {year} is: {smallest:C}");
-                                          //Console.WriteLine();
+                                          smallest = LowestSales(sales, count);
+                                          month = dates[0].Substring(0, 3);
+                                          year = dates[0].Substring(7, 4);
+                                          Console.WriteLine($"The smallest sales for {month} {year} is: {smallest:C}");
+                                          Console.WriteLine();
                                     break;
                                 case "G": //[G]raph Sales
                                           // TODO: call the DisplayChart method below
-
-
-                                    Prompt("Press <enter> to continue...");
-                                    break;
+                                            DisplaySalesChart(sales, dates, count);
+                                            Prompt("Press <enter> to continue...");
+                                            break;
                                 case "R": //[R]eturn to MAIN MENU
                                     displayAnalysisMenu = false;
                                     break;
@@ -224,7 +226,7 @@ internal class Program
      
 
         // TODO: create the Prompt method
-		static string Prompt(String prompt)
+		static string Prompt(string prompt)
 		{
 			string userString;
 			Console.Write(prompt);
@@ -274,6 +276,7 @@ internal class Program
 			Console.WriteLine("[M]onthly Statistics");
 			Console.WriteLine("[D]isplay Main Menu");
 			Console.WriteLine("[Q]uit Program");
+     
 		}
 
 
@@ -312,12 +315,11 @@ internal class Program
 					indexOfLargest = i;
 				}
 			}
-			return indexOfLargest;
+			return sales[indexOfLargest];
 		}
 
         // TODO: create the Smallest method
-        static int LowestSales(double[] sales, int countOfEntries){
-
+        static double LowestSales(double[] sales, int countOfEntries){
             int indexOfMin = 0;
             double min = 0;
 
@@ -339,7 +341,7 @@ internal class Program
                     break;
                 }
             }
-            return indexOfMin;
+            return sales[indexOfMin];
         }
 
 
@@ -361,10 +363,13 @@ internal class Program
 
 
         // TODO: create the DisplayEntries method
-            void DisplayEntries(double[] sales, string[] dates, int countOfEntries){
-                for(int i = 0; i < countOfEntries; i++){
-                    Console.WriteLine(String.Format("| {0,1} | {1,11} |", sales[i], dates[i]));
-                    Console.WriteLine("------------");
+			void DisplayEntries(double[] sales, string[] dates, int countOfEntries){
+                Console.WriteLine(String.Format(" {0,0}  {1,24} ", "Dates", "Sales Value"));
+                Console.Write("------------");
+				Console.Write("        " + "------------");
+				Console.WriteLine();
+				for(int i = 0; i < countOfEntries; i++){
+                    Console.WriteLine(String.Format(" {0,5}  {1,10} ",dates[i] ,sales[i]));
                 }
         }
 
@@ -399,14 +404,16 @@ internal class Program
                        } else {
                             throw new FormatException("Error: Please only enter alphabetic characters for the month.");
                             //spacing
-                           
                        }
                     }
                     catch (FormatException ex){
                         Console.WriteLine(ex.Message);
                     }
                 } while(!monthMatch);
-            
+                //END GET MONTH
+
+
+
                 Console.Write("Please enter year. (eg. YYYY): ");
 
                 do{
@@ -449,51 +456,68 @@ internal class Program
             return count;    
         }
 
-        // int LoadSalesFile(string filename, double[] sales, string[] dates) --> loads the records from a file (filename) into the associative arrays used by the program; returns the record count (i.e. how many days of data were loaded) [difficulty 2]
+        // int LoadSalesFile(string filename, double[] sales, string[] dates) -->
+        // loads the records from a file (filename) into the associative arrays used by the program; 
+        //returns the record count (i.e. how many days of data were loaded) [difficulty 2]
         // TODO: create the LoadSalesFile method
         static int LoadSalesFile(string fileName, double[] sales, string[] dates){
             int count = 0;
-            string currLine = "";
+           
             try{
                 if(File.Exists(fileName)){
-                    using (StreamReader sr = new StreamReader(fileName)){
-                    string[] lines = File.ReadAllLines(fileName);
-                    for(int i = 0; i < sales.Length; i++){
-                       string[] values = lines[i].Split(',');
-                       dates[i] = values[0];
-                       sales[i] = double.Parse(values[1]);
+                    // using (StreamReader sr = new StreamReader(fileName)){
+                    // sr.ReadLine();
+                    // string[] lines = File.ReadAllLines(fileName);
+                    using (StreamReader reader = new StreamReader(fileName)){
+                     // Read and discard the header line
+                    reader.ReadLine();
+
+                    // Read the rest of the file
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        // Process each line as needed
+                        string[] values = line.Split(',');
+                        sales[count] = double.Parse(values[1]);
+                        dates[count] =  values[0];
+                        count++;
                     }
-                  }
+                    }
+
                 } else {
-                    throw new IOException("File not found in this directory");
+                    throw new FileNotFoundException("File not found in this directory:");
                 }
-            } catch(IOException ex){
-                Console.WriteLine(ex.Message);
+            } catch(FileNotFoundException ex){
+                Console.WriteLine(ex.Message + $" {fileName}" );
             }
             return count;
         }
 
 
         // TODO: create the SaveSalesFile method
-        static void SaveSalesFile(double[] sales, string[] dates, string fileName){
-        try{
-            if(File.Exists(fileName)){
-                using (StreamWriter sw = new StreamWriter(fileName)){
-                for(int i = 0; i < sales.Length; i++){
-                    sw.WriteLine($"{dates[i]}" + "," + $"{sales[i]}");
+        static void SaveSalesFile(double[] sales, string[] dates, string fileName, int countOfEntries){
+            try{
+                if(File.Exists(fileName)){
+                    using (StreamWriter sw = new StreamWriter(fileName)){
+                    //print headers first 
+                    sw.WriteLine("Dates, Sales");
+                
+                    for(int i = 0; i < countOfEntries; i++){
+                        sw.WriteLine($"{dates[i]}" + "," + $"{sales[i]}");
+                    }
+                }
+                } else {
+                    File.Create(fileName).Close();
+                    using (StreamWriter sw = new StreamWriter(fileName)){
+                     sw.WriteLine("Dates, Sales");
+                    for(int i = 0; i < countOfEntries; i++){
+                        sw.WriteLine($"{dates[i]}" + "," + $"{sales[i]}");
+                    }
                 }
             }
-            } else {
-                File.Create(fileName).Close();
-                using (StreamWriter sw = new StreamWriter(fileName)){
-                for(int i = 0; i < sales.Length; i++){
-                    sw.WriteLine($"{dates[i]}" + "," + $"{sales[i]}");
-                }
+            } catch(IOException ex){
+                Console.Write(ex.Message);
             }
-        }
-        } catch(IOException ex){
-            Console.Write(ex.Message);
-        }
     }  
 
         // ++++++++++++++++++++++++++++++++++++ Difficulty 3 ++++++++++++++++++++++++++++++++++++
@@ -504,6 +528,55 @@ internal class Program
         // ++++++++++++++++++++++++++++++++++++ Difficulty 4 ++++++++++++++++++++++++++++++++++++
 
         // TODO: create the DisplaySalesChart method
+    void DisplaySalesChart(double[] sales, string[] dates, int countOfEntries)
+        {
+            Console.WriteLine("--Daily Sales--");
+            double salesMax = sales.Max();
+            int runningSalesMax = (((int)salesMax + 4) / 5) * 5; // Round up to the nearest multiple of 5
+
+            for (int i = runningSalesMax; i >= 0; i -= 5)
+            {
+                string rowString = "";	
+                if(i == salesMax){
+                    rowString = $"{i}   |";
+                } else if (i < salesMax){
+                    rowString = i < 10 ? $"0{i}     |" : $"{i}     |";
+                }
+                // Handle leading zeros for alignment
+                //rowString += " |"; // Add the separator after the scale label
+
+                for (int j = 0; j < countOfEntries; j++)
+                {
+                    if (sales[j] != i)
+                    {    
+                        rowString += "            ".PadLeft(6);
+                    
+                    }
+                    else
+                    {
+                        rowString += sales[j].ToString().PadLeft(3); 
+                    }
+                }
+
+                Console.WriteLine(rowString); // Print the current row of the chart
+                if (i == 0) break; // Exit the loop when the scale reaches 0
+            }
+
+            // Print the separator line
+            Console.WriteLine(new string('-', 4 * sales.Length));
+            // Print the header row for days
+            Console.Write("Days |");
+            for(int i = 0; i < countOfEntries; i++){
+                //   string date = "MAR-01-2024";
+                //   string day = date.Substring(4, 2);  
+                  Console.Write($"{i + 1}".PadLeft(6) + "|"); // Print each day with padding
+            } 
+            
+            
+            Console.WriteLine(); // New line at the end of the chart
+}
+
+// Example usage:
 
 
 
