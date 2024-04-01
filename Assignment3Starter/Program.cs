@@ -1,5 +1,4 @@
-﻿///// <summary>
-///// </summary>
+﻿
 
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
@@ -297,7 +296,15 @@ internal class Program
 			Console.WriteLine("G]raph Sales");
 			Console.WriteLine("[R]eturn to MAIN MENU");
 		}
-        // TODO: create the Largest method
+        
+        ///// <summary>
+        //   Finds and returns the largest sales amount from the given array of sales values.
+        //   Parameters:
+        //     sales: An array containing sales values.
+        //     countEntries: The number of entries in the sales array.
+        //   Returns:
+        //     The largest sales amount found in the array.
+        ///// </summary>
 		static double Largest(double[] sales, int countEntries){
 			double calcLarge = 0.0;
 			int indexOfLargest = 0;
@@ -321,6 +328,15 @@ internal class Program
 		}
 
         // TODO: create the Smallest method
+        
+        ///// <summary>
+        //   Finds and returns the lowest sales amount from the given array of sales values.
+        //   Parameters:
+        //     sales: An array containing sales values.
+        //     countOfEntries: The number of entries in the sales array.
+        //   Returns:
+        //     The lowest sales amount found in the array.
+        ///// </summary>
         static double LowestSales(double[] sales, int countOfEntries){
             int indexOfMin = 0;
             double min = 0;
@@ -347,7 +363,14 @@ internal class Program
         }
 
 
-        // TODO: create the Mean method
+        ///// <summary>
+        //   Calculates and returns the mean average of the sales values in the given array.
+        //   Parameters:
+        //     sales: An array containing sales values.
+        //     countOfEntries: The number of entries in the sales array.
+        //   Returns:
+        //     The mean average of the sales values in the array.
+        ///// </summary>
         double MeanAverageSales(double[] sales, int countOfEntries){
             double totalSum = 0.0;
             double mean = 0.0;
@@ -365,6 +388,7 @@ internal class Program
 
 
         // TODO: create the DisplayEntries method
+        ///// <summary>
         /**
         This function, DisplayEntries, is responsible for displaying sales entries with their corresponding dates.
         It prints a header indicating the format of the displayed data: "Dates" and "Sales Value".
@@ -373,6 +397,7 @@ internal class Program
         @param dates An array containing corresponding dates.
         @param countOfEntries The number of entries to be displayed.
         */
+        ///// </summary>
         void DisplayEntries(double[] sales, string[] dates, int countOfEntries){
             Console.WriteLine(String.Format(" {0,0}  {1,24} ", "Dates", "Sales Value"));
             Console.Write("------------");
@@ -385,6 +410,7 @@ internal class Program
 
 
         // TODO: create the EnterSales method
+         ///// <summary>
         /**
         This function, EnterSales, prompts the user to input sales data for a given month and year.
         It validates user inputs for month (MMM format), year (YYYY format), and daily sales (numeric values only).
@@ -393,6 +419,7 @@ internal class Program
         @param dates An array to store corresponding dates.
         @return The number of days for which sales data was successfully entered.
         */
+         ///// </summary>
         int EnterSales(double[] sales, string[] dates){
                 //only numbers for sales 
                 string dailySalesTest = @"^[0-9]+";
@@ -478,13 +505,9 @@ internal class Program
         /**
         This static function, LoadSalesFile, reads sales data from a specified file and populates 
         given arrays with sales and corresponding dates.
-
         @param fileName The name of the file containing sales data.
-
         @param sales An array to store sales data.
-
         @param dates An array to store corresponding dates.
-
         @return The number of entries successfully loaded from the file.
         */
         ///// </summary>
@@ -521,7 +544,7 @@ internal class Program
         }
 
 
-        // TODO: create the SaveSalesFile method
+      
         ///// <summary>
         /// This static function, SaveSalesFile, is designed to save sales data along with corresponding dates to a 
         /// specified file. 
@@ -552,9 +575,16 @@ internal class Program
             }
     }  
 
-        // ++++++++++++++++++++++++++++++++++++ Difficulty 3 ++++++++++++++++++++++++++++++++++++
-
-    
+    ///// <summary>
+    //   Allows the user to edit sales entries for specific days and updates the sales array accordingly.
+    //   Displays the current entries, prompts the user to select a day to edit, and guides them through
+    //   entering a new sales value for that day. The function validates user input to ensure it's within
+    //   the appropriate range and format.
+    //   Parameters:
+    //     sales: An array containing current sales values.
+    //     dates: An array containing corresponding dates for the sales entries.
+    //     countOfEntries: The number of entries in the sales and dates arrays
+    ///// </summary>
         void EditEntries(double[] sales, string[] dates, int countOfEntries){
             DisplayEntries(sales, dates, countOfEntries);
             Prompt("Press <enter> to continue...");
@@ -581,7 +611,7 @@ internal class Program
                             //execution jumps to second do-while
                             Console.WriteLine($"Please enter a new Sales Value for day {dayToEdit}");
                        } else {
-                            throw new FormatException($"There aren't that many entries in this file. Please pick a number aboce 0 and below or equal to {countOfEntries}");
+                            throw new FormatException($"There aren't that many entries in this file. Please pick a number above 0 and below or equal to {countOfEntries}");
                        }
                     }
                     catch (FormatException ex){
@@ -616,9 +646,15 @@ internal class Program
 
 
 
-        // ++++++++++++++++++++++++++++++++++++ Difficulty 4 ++++++++++++++++++++++++++++++++++++
+    ///// <summary>
+    //   Displays a sales chart showing daily sales amounts along with corresponding dates.
+    //   Parameters:
+    //     sales: An array containing daily sales amounts.
+    //     dates: An array containing corresponding dates for the sales entries.
+    //     countOfEntries: The number of entries in the sales and dates arrays.
+    //   Output:
+    //     Prints a formatted chart to the console showing daily sales amounts and dates
 
-        // TODO: create the DisplaySalesChart method
     void DisplaySalesChart(double[] sales, string[] dates, int countOfEntries) {
             Console.WriteLine("--Daily Sales--");
             double salesMax = sales.Max();
@@ -633,15 +669,14 @@ internal class Program
                 }
                 for (int j = 0; j < countOfEntries; j++){
                     if (sales[j] != i){    
-                        rowString += "      ".PadLeft(4);
-                             
+                        rowString += "       ".PadLeft(4);       
                     }
                     else{
                         rowString += sales[j].ToString().PadLeft(3); 
                     }
                 }
-                Console.WriteLine(rowString); // Print the current row of the chart
-                if (i == 0) break; // Exit the loop when the scale reaches 0
+                Console.WriteLine(rowString); 
+                if (i == 0) break; 
             }
             // Print the separator line
             Console.WriteLine(new string('-', 4 * sales.Length));
