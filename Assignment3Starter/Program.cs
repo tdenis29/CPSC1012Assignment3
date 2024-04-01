@@ -228,7 +228,7 @@ internal class Program
 			Console.Write(prompt);
 			try
 			{
-				userString = Console.ReadLine()!;
+				userString = Console.ReadLine();
 			}
 			catch
 			{
@@ -240,6 +240,8 @@ internal class Program
 
         // TODO: create the PromptDouble method
         // The method must always return a double and should not crash the program.
+        //there was nowhere to call this method in my version of the assignment.
+        //did i miss a pull request ? I only pulled the version from March 11th.
 		static double PromptDouble(){
 			string userInput = "";
 			double userDouble = 0.0;
@@ -251,10 +253,8 @@ internal class Program
                     
                     userInput = Console.ReadLine()!; 
                     if(userInput != null){
-                        userDouble = double.Parse(userInput!);
+                        userDouble = double.Parse(userInput);
                     }
-					//userInput = Console.ReadLine();
-					
 					exit = true;
 				}
 				catch (FormatException ex){
