@@ -112,8 +112,6 @@ internal class Program
                         if (proceed)
                         {
                             EditEntries(sales, dates, count);
-                            
-
                         }
                         else
                         {
@@ -193,7 +191,7 @@ internal class Program
                                           // TODO: call the DisplayChart method below
                                             DisplaySalesChart(sales, dates, count);
                                             Prompt("Press <enter> to continue...");
-                                            break;
+                                         break;
                                 case "R": //[R]eturn to MAIN MENU
                                     displayAnalysisMenu = false;
                                     break;
@@ -575,7 +573,7 @@ internal class Program
                     try{
                        dayToEdit = int.Parse(Console.ReadLine());
                        //numerical test see if the number is in range to avoid out of range exception.
-                       if(dayToEdit <= countOfEntries){
+                       if(dayToEdit <= countOfEntries && dayToEdit > 0){
                             exitClause = true;
                             Console.WriteLine();
                             Console.WriteLine($"You are currently editing the sales value for day {dayToEdit}\n");
@@ -583,7 +581,7 @@ internal class Program
                             //execution jumps to second do-while
                             Console.WriteLine($"Please enter a new Sales Value for day {dayToEdit}");
                        } else {
-                            throw new FormatException($"There aren't that many entries in this file. Please pick a number below or equal to {countOfEntries}");
+                            throw new FormatException($"There aren't that many entries in this file. Please pick a number aboce 0 and below or equal to {countOfEntries}");
                        }
                     }
                     catch (FormatException ex){
@@ -601,7 +599,7 @@ internal class Program
                         if(double.Parse(newSalesValue) == -1){
                             break;
                         }else if(Regex.IsMatch(newSalesValue, dailySalesTest)){
-                            sales[dayToEdit] = double.Parse(newSalesValue);
+                            sales[dayToEdit - 1] = double.Parse(newSalesValue);
                             secondExitClause = true;
                         }else if(!Regex.IsMatch(newSalesValue, dailySalesTest)){
                             throw new FormatException("Please only enter digits for daily sales.");
@@ -613,9 +611,6 @@ internal class Program
                 } while(!secondExitClause);
                 
                 DisplayEntries(sales, dates, countOfEntries);
-
-            
-                
         }
 
 
@@ -638,7 +633,7 @@ internal class Program
                 }
                 for (int j = 0; j < countOfEntries; j++){
                     if (sales[j] != i){    
-                        rowString += "        ".PadLeft(4);
+                        rowString += "      ".PadLeft(4);
                              
                     }
                     else{
