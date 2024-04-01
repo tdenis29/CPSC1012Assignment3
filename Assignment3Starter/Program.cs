@@ -10,8 +10,8 @@ using System.Globalization;
 
 /// Assignment 3
 /// 
-/// Author: 
-/// Date: 
+/// Author: Tyson Denis
+/// Date: Final commit April 1st, 2024
 /// Purpose: Allows user to enter/save/load/edit/view daily sales values
 ///          from a file. Allows and displays simple data analysis
 ///          (mean/max/min/graph) of sales values for a given month.
@@ -27,7 +27,7 @@ internal class Program
         // TODO: declare a constant to represent the max size of the sales
         // and dates arrays. The arrays must be large enough to store
         // sales for an entire month.
-        const int daysOfMonth = 31;
+        const int daysOfMonth = 30;
 
         // TODO: create a double array named 'sales', use the max size constant you declared
         // above to specify the physical size of the array.
@@ -37,8 +37,6 @@ internal class Program
         // TODO: create a string array named 'dates', use the max size constant you declared
         // above to specify the physical size of the array.
         string[] dates = new string[daysOfMonth];
-
-
 
         string month;
         string year;
@@ -113,7 +111,8 @@ internal class Program
 
                         if (proceed)
                         {
-                            // TODO: call the EditEntries method here
+                            EditEntries(sales, dates, count);
+                            
 
                         }
                         else
@@ -232,7 +231,7 @@ internal class Program
 			Console.Write(prompt);
 			try
 			{
-				userString = Console.ReadLine();
+				userString = Console.ReadLine()!;
 			}
 			catch
 			{
@@ -245,15 +244,20 @@ internal class Program
         // TODO: create the PromptDouble method
         // The method must always return a double and should not crash the program.
 		static double PromptDouble(){
-			string userInput;
+			string userInput = "";
 			double userDouble = 0.0;
 			bool exit = false;
 
 			while(!exit){
 				Console.WriteLine("Please enter a double value.");
 				try{
-					userInput = Console.ReadLine();
-					userDouble = double.Parse(userInput);
+                    
+                    userInput = Console.ReadLine()!; 
+                    if(userInput != null){
+                        userDouble = double.Parse(userInput!);
+                    }
+					//userInput = Console.ReadLine();
+					
 					exit = true;
 				}
 				catch (FormatException ex){
@@ -363,22 +367,40 @@ internal class Program
 
 
         // TODO: create the DisplayEntries method
-			void DisplayEntries(double[] sales, string[] dates, int countOfEntries){
-                Console.WriteLine(String.Format(" {0,0}  {1,24} ", "Dates", "Sales Value"));
-                Console.Write("------------");
-				Console.Write("        " + "------------");
-				Console.WriteLine();
-				for(int i = 0; i < countOfEntries; i++){
-                    Console.WriteLine(String.Format(" {0,5}  {1,10} ",dates[i] ,sales[i]));
-                }
+        /**
+        This function, DisplayEntries, is responsible for displaying sales entries with their corresponding dates.
+        It prints a header indicating the format of the displayed data: "Dates" and "Sales Value".
+        Sales data and dates are displayed in aligned columns.
+        @param sales An array containing sales values.
+        @param dates An array containing corresponding dates.
+        @param countOfEntries The number of entries to be displayed.
+        */
+        void DisplayEntries(double[] sales, string[] dates, int countOfEntries){
+            Console.WriteLine(String.Format(" {0,0}  {1,24} ", "Dates", "Sales Value"));
+            Console.Write("------------");
+            Console.Write("        " + "------------");
+            Console.WriteLine();
+            for(int i = 0; i < countOfEntries; i++){
+                Console.WriteLine(String.Format(" {0,5}  {1,10} ",dates[i] ,sales[i]));
+            }
         }
 
 
         // TODO: create the EnterSales method
+        /**
+        This function, EnterSales, prompts the user to input sales data for a given month and year.
+        It validates user inputs for month (MMM format), year (YYYY format), and daily sales (numeric values only).
+        User inputs are stored in arrays for sales and dates.
+        @param sales An array to store daily sales data.
+        @param dates An array to store corresponding dates.
+        @return The number of days for which sales data was successfully entered.
+        */
         int EnterSales(double[] sales, string[] dates){
-                //insure user input has no numerical characters or special
+                //only numbers for sales 
                 string dailySalesTest = @"^[0-9]+";
+                //insure user input has no numerical characters or special
                 string numericalTest = @"^[^\d]+$";
+                //tests for years between 1900 and 2100
                 string yearTest = @"^(19|20)\d{2}$";
 
                 string dailySales = "";
@@ -399,11 +421,9 @@ internal class Program
                        //numerical test if fails throw format exception
                        if(Regex.IsMatch(month, numericalTest)){
                             monthMatch = true;
-                            //spacing
                             Console.WriteLine();
                        } else {
                             throw new FormatException("Error: Please only enter alphabetic characters for the month.");
-                            //spacing
                        }
                     }
                     catch (FormatException ex){
@@ -418,7 +438,7 @@ internal class Program
 
                 do{
                     try{
-                    userYear = Console.ReadLine();
+                        userYear = Console.ReadLine();
                         if(!Regex.IsMatch(userYear, yearTest)){
                             throw new FormatException("Please enter a year between 1900 and 2100");
                         } else {
@@ -432,7 +452,7 @@ internal class Program
 
                 
                 //add values into array here 
-                for(int i = 0; i < 30; i++){
+                for(int i = 0; i <= 30; i++){
                     Console.WriteLine($"Please enter daily sales for day {i + 1}.");
                     try{
                         dailySales = Console.ReadLine();
@@ -456,18 +476,27 @@ internal class Program
             return count;    
         }
 
-        // int LoadSalesFile(string filename, double[] sales, string[] dates) -->
-        // loads the records from a file (filename) into the associative arrays used by the program; 
-        //returns the record count (i.e. how many days of data were loaded) [difficulty 2]
-        // TODO: create the LoadSalesFile method
+    
+       
+        ///// <summary>
+        /**
+        This static function, LoadSalesFile, reads sales data from a specified file and populates 
+        given arrays with sales and corresponding dates.
+
+        @param fileName The name of the file containing sales data.
+
+        @param sales An array to store sales data.
+
+        @param dates An array to store corresponding dates.
+
+        @return The number of entries successfully loaded from the file.
+        */
+        ///// </summary>
         static int LoadSalesFile(string fileName, double[] sales, string[] dates){
             int count = 0;
            
             try{
                 if(File.Exists(fileName)){
-                    // using (StreamReader sr = new StreamReader(fileName)){
-                    // sr.ReadLine();
-                    // string[] lines = File.ReadAllLines(fileName);
                     using (StreamReader reader = new StreamReader(fileName)){
                      // Read and discard the header line
                     reader.ReadLine();
@@ -489,12 +518,19 @@ internal class Program
                 }
             } catch(FileNotFoundException ex){
                 Console.WriteLine(ex.Message + $" {fileName}" );
+            } catch(IOException excep){
+                Console.WriteLine(excep.Message);
             }
             return count;
         }
 
 
         // TODO: create the SaveSalesFile method
+        ///// <summary>
+        /// This static function, SaveSalesFile, is designed to save sales data along with corresponding dates to a 
+        /// specified file. 
+        /// It takes in arrays of sales and dates, the desired filename, and the count of entries to be saved.
+        ///// </summary>
         static void SaveSalesFile(double[] sales, string[] dates, string fileName, int countOfEntries){
             try{
                 if(File.Exists(fileName)){
@@ -522,7 +558,68 @@ internal class Program
 
         // ++++++++++++++++++++++++++++++++++++ Difficulty 3 ++++++++++++++++++++++++++++++++++++
 
-        // TODO: create the EditEntries method
+    
+        void EditEntries(double[] sales, string[] dates, int countOfEntries){
+            DisplayEntries(sales, dates, countOfEntries);
+            Prompt("Press <enter> to continue...");
+            Console.WriteLine();
+
+            string monthEdit =  dates[0].Substring(0, 3);
+            string  yearEdit = dates[0].Substring(7, 4);
+            string editing = monthEdit + "-" + yearEdit;
+            Console.WriteLine($"You are currently editiing data for: " + editing);
+            Console.WriteLine();
+
+            bool exitClause = false;
+            int dayToEdit = 0;
+            Console.Write($"Please enter a day between 1 and {countOfEntries} that you wish to edit: ");
+                do{
+                    try{
+                       dayToEdit = int.Parse(Console.ReadLine());
+                       //numerical test see if the number is in range to avoid out of range exception.
+                       if(dayToEdit <= countOfEntries){
+                            exitClause = true;
+                            Console.WriteLine();
+                            Console.WriteLine($"You are currently editing the sales value for day {dayToEdit}\n");
+                            Console.WriteLine($"Please enter a new Sales Value for day {dayToEdit}");
+                       } else {
+                            throw new FormatException($"There aren't that many entries in this file. Please pick a number below or equal to {countOfEntries}");
+                       }
+                    }
+                    catch (FormatException ex){
+                        Console.WriteLine(ex.Message);
+                    }
+                } while(!exitClause);
+
+                string newSalesValue = "";
+                bool secondExitClause = false;
+                 //only numbers for sales 
+                string dailySalesTest = @"^[0-9]+";
+                do{
+                    try{
+                        newSalesValue = Console.ReadLine();
+                        if(double.Parse(newSalesValue) == -1){
+                            break;
+                        }else if(Regex.IsMatch(newSalesValue, dailySalesTest)){
+                            sales[dayToEdit] = double.Parse(newSalesValue);
+                            secondExitClause = true;
+                        }
+                        if(!Regex.IsMatch(newSalesValue, dailySalesTest)){
+                            throw new FormatException("Please only enter digits for daily sales.");
+                        } 
+                    }
+                    catch (FormatException ex){
+                        Console.WriteLine(ex.Message);
+                    }
+                } while(!secondExitClause);
+                
+                DisplayEntries(sales, dates, countOfEntries);
+
+            
+                
+        }
+
+
 
 
         // ++++++++++++++++++++++++++++++++++++ Difficulty 4 ++++++++++++++++++++++++++++++++++++
@@ -549,8 +646,8 @@ internal class Program
                 {
                     if (sales[j] != i)
                     {    
-                        rowString += "            ".PadLeft(6);
-                    
+                        rowString += "        ".PadLeft(4);
+                             
                     }
                     else
                     {
@@ -583,10 +680,6 @@ internal class Program
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         // ++++++++++++++++++++++++++++++++++++ Additional Provided Methods ++++++++++++++++++++++++++++++++++++
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-        // NOTE: Many of the following methods depend on the Prompt method and will operate correctly once
-        // that method has been implemented.
-
         ///// <summary>
         /// Displays the Program intro.
         ///// </summary>
