@@ -431,9 +431,7 @@ internal class Program
                     }
                 } while(!monthMatch);
                 //END GET MONTH
-
-
-
+                
                 Console.Write("Please enter year. (eg. YYYY): ");
 
                 do{
@@ -581,6 +579,8 @@ internal class Program
                             exitClause = true;
                             Console.WriteLine();
                             Console.WriteLine($"You are currently editing the sales value for day {dayToEdit}\n");
+                            Console.WriteLine($"You can enter -1 to exit editing.\n");
+                            //execution jumps to second do-while
                             Console.WriteLine($"Please enter a new Sales Value for day {dayToEdit}");
                        } else {
                             throw new FormatException($"There aren't that many entries in this file. Please pick a number below or equal to {countOfEntries}");
@@ -603,8 +603,7 @@ internal class Program
                         }else if(Regex.IsMatch(newSalesValue, dailySalesTest)){
                             sales[dayToEdit] = double.Parse(newSalesValue);
                             secondExitClause = true;
-                        }
-                        if(!Regex.IsMatch(newSalesValue, dailySalesTest)){
+                        }else if(!Regex.IsMatch(newSalesValue, dailySalesTest)){
                             throw new FormatException("Please only enter digits for daily sales.");
                         } 
                     }
@@ -625,57 +624,40 @@ internal class Program
         // ++++++++++++++++++++++++++++++++++++ Difficulty 4 ++++++++++++++++++++++++++++++++++++
 
         // TODO: create the DisplaySalesChart method
-    void DisplaySalesChart(double[] sales, string[] dates, int countOfEntries)
-        {
+    void DisplaySalesChart(double[] sales, string[] dates, int countOfEntries) {
             Console.WriteLine("--Daily Sales--");
             double salesMax = sales.Max();
             int runningSalesMax = (((int)salesMax + 4) / 5) * 5; // Round up to the nearest multiple of 5
 
-            for (int i = runningSalesMax; i >= 0; i -= 5)
-            {
+            for (int i = runningSalesMax; i >= 0; i -= 5){
                 string rowString = "";	
                 if(i == salesMax){
                     rowString = $"{i}   |";
                 } else if (i < salesMax){
                     rowString = i < 10 ? $"0{i}     |" : $"{i}     |";
                 }
-                // Handle leading zeros for alignment
-                //rowString += " |"; // Add the separator after the scale label
-
-                for (int j = 0; j < countOfEntries; j++)
-                {
-                    if (sales[j] != i)
-                    {    
+                for (int j = 0; j < countOfEntries; j++){
+                    if (sales[j] != i){    
                         rowString += "        ".PadLeft(4);
                              
                     }
-                    else
-                    {
+                    else{
                         rowString += sales[j].ToString().PadLeft(3); 
                     }
                 }
-
                 Console.WriteLine(rowString); // Print the current row of the chart
                 if (i == 0) break; // Exit the loop when the scale reaches 0
             }
-
             // Print the separator line
             Console.WriteLine(new string('-', 4 * sales.Length));
             // Print the header row for days
             Console.Write("Days |");
             for(int i = 0; i < countOfEntries; i++){
-                //   string date = "MAR-01-2024";
-                //   string day = date.Substring(4, 2);  
-                  Console.Write($"{i + 1}".PadLeft(6) + "|"); // Print each day with padding
+                Console.Write($"{i + 1}".PadLeft(6) + "|"); // Print each day with padding
             } 
-            
-            
+        
             Console.WriteLine(); // New line at the end of the chart
 }
-
-// Example usage:
-
-
 
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         // ++++++++++++++++++++++++++++++++++++ Additional Provided Methods ++++++++++++++++++++++++++++++++++++
