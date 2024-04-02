@@ -26,7 +26,7 @@ internal class Program
         // TODO: declare a constant to represent the max size of the sales
         // and dates arrays. The arrays must be large enough to store
         // sales for an entire month.
-        const int daysOfMonth = 30;
+        const int daysOfMonth = 31;
 
         // TODO: create a double array named 'sales', use the max size constant you declared
         // above to specify the physical size of the array.
@@ -242,27 +242,32 @@ internal class Program
         // The method must always return a double and should not crash the program.
         //there was nowhere to call this method in my version of the assignment.
         //did i miss a pull request ? I only pulled the version from March 11th.
+        //// <summary>
+        ///Will prompt for double value only continuing when a value in the range has been entered.
+        ///I called it in the Entersales Method
+        /// </summary>
 		static double PromptDouble(){
-			string userInput = "";
 			double userDouble = 0.0;
+            double min = 0;
+            double max = 100;
+
 			bool exit = false;
 
-			while(!exit){
-				Console.WriteLine("Please enter a double value.");
+			do{
 				try{
-                    
-                    userInput = Console.ReadLine()!; 
-                    if(userInput != null){
-                        userDouble = double.Parse(userInput);
+                    userDouble = double.Parse(Console.ReadLine());
+                    if(userDouble >= min && userDouble <= max){
+                        exit = true;
+                    } else {
+                        Console.WriteLine($"Please Enter a value between {min} and {max}");
                     }
-					exit = true;
-				}
-				catch (FormatException ex){
+				}catch (FormatException ex){
 					Console.WriteLine(ex.Message);
 				}
-			}
+			}while(!exit);
+
             return userDouble;
-        }
+        } 
 
 
         // TODO: create the DisplayMainMenu method
@@ -429,7 +434,7 @@ internal class Program
                 string yearTest = @"^(19|20)\d{2}$";
 
                 string dailySales = "";
-                string[] dailySalesArray = new string[31];
+                
 
                 string monthlySaleString = "";
                 string month = "";
@@ -476,14 +481,13 @@ internal class Program
                 
                 //add values into array here 
                 for(int i = 0; i <= 30; i++){
-                    Console.WriteLine($"Please enter daily sales for day {i + 1}.");
+                    Console.WriteLine($"Please enter daily sales for day {i + 1} as a double value.");
                     try{
-                        dailySales = Console.ReadLine();
+                        dailySales = PromptDouble().ToString();
                         if(double.Parse(dailySales) == -1){
                             break;
                         }
                         if(Regex.IsMatch(dailySales, dailySalesTest)){
-                            dailySalesArray[i] = dailySales;
                             count++;
                         }
                         if(!Regex.IsMatch(dailySales, dailySalesTest)){
@@ -494,7 +498,6 @@ internal class Program
                     }
                 //ternary operator to handle 0 for days less than 10
                  monthlySaleString = i < 10 ? $"{month}-0{i + 1}-{userYear}" : $"{month}-{i + 1}-{userYear}";
-                
                  dates[i] = monthlySaleString;
                  sales[i] = double.Parse(dailySales);
                 }
@@ -667,11 +670,11 @@ internal class Program
                 if(i == salesMax){
                     rowString = $"{i}   |";
                 } else if (i < salesMax){
-                    rowString = i < 10 ? $"0{i}     |" : $"{i}     |";
+                    rowString = i < 10 ? $"0{i}     |" : $"{i}    |";
                 }
                 for (int j = 0; j < countOfEntries; j++){
                     if (sales[j] != i){    
-                        rowString += "       ".PadLeft(4);       
+                        rowString += "   ".PadLeft(4);       
                     }
                     else{
                         rowString += sales[j].ToString().PadLeft(3); 
@@ -685,7 +688,7 @@ internal class Program
             // Print the header row for days
             Console.Write("Days |");
             for(int i = 0; i < countOfEntries; i++){
-                Console.Write($"{i + 1}".PadLeft(6) + "|"); // Print each day with padding
+                Console.Write($"{i + 1}".PadLeft(3) + "|"); // Print each day with padding
             } 
         
             Console.WriteLine(); // New line at the end of the chart
