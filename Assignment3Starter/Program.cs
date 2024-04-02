@@ -258,7 +258,10 @@ internal class Program
                     userDouble = double.Parse(Console.ReadLine());
                     if(userDouble >= min && userDouble <= max){
                         exit = true;
-                    } else {
+                    } else if( userDouble == -1){
+                        exit = true;
+                    } 
+                    else{
                         Console.WriteLine($"Please Enter a value between {min} and {max}");
                     }
 				}catch (FormatException ex){
@@ -427,13 +430,12 @@ internal class Program
          ///// </summary>
         int EnterSales(double[] sales, string[] dates){
                 //only numbers for sales 
-                string dailySalesTest = @"^[0-9]+";
                 //insure user input has no numerical characters or special
                 string numericalTest = @"^[^\d]+$";
                 //tests for years between 1900 and 2100
                 string yearTest = @"^(19|20)\d{2}$";
 
-                string dailySales = "";
+                double dailySales = 0;
                 
 
                 string monthlySaleString = "";
@@ -482,24 +484,16 @@ internal class Program
                 //add values into array here 
                 for(int i = 0; i <= 30; i++){
                     Console.WriteLine($"Please enter daily sales for day {i + 1} as a double value.");
-                    try{
-                        dailySales = PromptDouble().ToString();
-                        if(double.Parse(dailySales) == -1){
-                            break;
-                        }
-                        if(Regex.IsMatch(dailySales, dailySalesTest)){
-                            count++;
-                        }
-                        if(!Regex.IsMatch(dailySales, dailySalesTest)){
-                            throw new FormatException("Please only enter digits for daily sales.");
-                        }
-                    } catch(FormatException ex){
-                        Console.WriteLine(ex.Message);
+                    dailySales = PromptDouble();
+                    if(dailySales == -1){
+                        break;
+                    } else {
+                        count++;
                     }
                 //ternary operator to handle 0 for days less than 10
                  monthlySaleString = i < 9 ? $"{month}-0{i + 1}-{userYear}" : $"{month}-{i + 1}-{userYear}";
                  dates[i] = monthlySaleString;
-                 sales[i] = double.Parse(dailySales);
+                 sales[i] = dailySales;
                 }
             return count;    
         }
@@ -624,21 +618,19 @@ internal class Program
                     }
                 } while(!exitClause);
 
-                string newSalesValue = "";
+                double newSalesValue = 0;
                 bool secondExitClause = false;
                  //only numbers for sales 
-                string dailySalesTest = @"^[0-9]+";
+                
                 do{
                     try{
-                        newSalesValue = Console.ReadLine();
-                        if(double.Parse(newSalesValue) == -1){
+                        newSalesValue = PromptDouble();
+                        if(newSalesValue == -1){
                             break;
-                        }else if(Regex.IsMatch(newSalesValue, dailySalesTest)){
-                            sales[dayToEdit - 1] = double.Parse(newSalesValue);
+                        }else{
+                            sales[dayToEdit - 1] = newSalesValue;
                             secondExitClause = true;
-                        }else if(!Regex.IsMatch(newSalesValue, dailySalesTest)){
-                            throw new FormatException("Please only enter digits for daily sales.");
-                        } 
+                        }
                     }
                     catch (FormatException ex){
                         Console.WriteLine(ex.Message);
@@ -646,6 +638,7 @@ internal class Program
                 } while(!secondExitClause);
                 
                 DisplayEntries(sales, dates, countOfEntries);
+                Console.WriteLine();
         }
 
 
