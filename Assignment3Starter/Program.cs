@@ -497,7 +497,7 @@ internal class Program
                         Console.WriteLine(ex.Message);
                     }
                 //ternary operator to handle 0 for days less than 10
-                 monthlySaleString = i < 10 ? $"{month}-0{i + 1}-{userYear}" : $"{month}-{i + 1}-{userYear}";
+                 monthlySaleString = i < 9 ? $"{month}-0{i + 1}-{userYear}" : $"{month}-{i + 1}-{userYear}";
                  dates[i] = monthlySaleString;
                  sales[i] = double.Parse(dailySales);
                 }
